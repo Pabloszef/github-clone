@@ -12,21 +12,24 @@ const HomePage = () => {
     const [repos, setRepos] = useState([]);
     const [loading, setLoading] = useState(false)
 
-    const [sortType, setSortType] = useState("forks");
+    const [sortType, setSortType] = useState("recent");
 
     const getUserProfileAndRepos = useCallback(async (username="pabloszef") => {
         setLoading(true)
         try {
             // 60 requests per hour, 5000 requests per hour for authenticated users
-            const userRes = await fetch(`https://api.github.com/users/${username}`)
+            const userRes = await fetch(`https://api.github.com/users/${username}`, {
+                headers: {
+                    authorization: `Token ${import.meta.env.VITE_GITHUB_API_KEY}`
+                }
+            })
             const userProfile = await userRes.json()
             setUserProfile(userProfile)
 
             const repoRes = await fetch(userProfile.repos_url)
             const repos = await repoRes.json()
+            repos.sort((a,b) => new Date(b.created_at) - new Date(a.created_at))
             setRepos(repos)
-            console.log("userProfile:", userProfile);
-            console.log("repos:", repos);
 
             return {userProfile, repos}
         } catch (error) {
@@ -51,8 +54,8 @@ const HomePage = () => {
 
        setUserProfile(userProfile);
        setRepos(repos);
-
        setLoading(false);
+       setSortType("recent");
 
     }
 

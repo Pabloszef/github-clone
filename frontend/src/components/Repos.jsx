@@ -1,9 +1,10 @@
 import React from 'react'
 import Repo from "./Repo.jsx";
 
-const Repos = ({repos}) => {
+const Repos = ({repos, alwaysFullWidth=false}) => {
+    const classname = alwaysFullWidth ? "w-full" : "lg:w-2/3 w-full"
     return (
-        <div className="lg:w-2/3 w-full bg-glass rounded-lg px-8 py-6">
+        <div className={`${classname} bg-glass rounded-lg px-8 py-6`}>
             <ol className="relative border-s border-gray-200">
                 {repos.map(repo => (
                     <Repo key={repo.id} repo={repo}/>
