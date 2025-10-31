@@ -17,19 +17,12 @@ const HomePage = () => {
     const getUserProfileAndRepos = useCallback(async (username="pabloszef") => {
         setLoading(true)
         try {
-            // 60 requests per hour, 5000 requests per hour for authenticated users
-            const userRes = await fetch(`https://api.github.com/users/${username}`, {
-                headers: {
-                    authorization: `Token ${import.meta.env.VITE_GITHUB_API_KEY}`
-                }
-            })
-            const userProfile = await userRes.json()
-            setUserProfile(userProfile)
+           const res = await fetch(`http://localhost:5000/api/users/profile/${username}`)
+           const {userProfile, repos} = await res.json()
 
-            const repoRes = await fetch(userProfile.repos_url)
-            const repos = await repoRes.json()
             repos.sort((a,b) => new Date(b.created_at) - new Date(a.created_at))
             setRepos(repos)
+            setUserProfile(userProfile)
 
             return {userProfile, repos}
         } catch (error) {
