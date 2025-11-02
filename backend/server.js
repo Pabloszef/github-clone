@@ -24,15 +24,11 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(cors());
 
-app.get("/", (req, res) => {
-    res.send("Server is ready")
-})
-
 app.use("/api/auth", authRoutes)
 app.use("/api/users", userRoutes)
 app.use("/api/explore", exploreRoutes)
 
-app.use(express.static(path.join(__dirname, "frontend/dist")));
+app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
