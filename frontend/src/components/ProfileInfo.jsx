@@ -5,6 +5,7 @@ import {IoLocationOutline} from "react-icons/io5";
 import {FaXTwitter} from "react-icons/fa6";
 import {RiGitRepositoryFill, RiUserFollowFill, RiUserFollowLine} from "react-icons/ri";
 import {formatMemberSince} from "../utils/functions.js";
+import LikeProfile from "./LikeProfile.jsx";
 
 const ProfileInfo = ({userProfile}) => {
     // const userProfile = {
@@ -34,6 +35,7 @@ const ProfileInfo = ({userProfile}) => {
                     {/* View on github */}
 
                     <div className="flex gap-2 items-center flex-col">
+                        <LikeProfile userProfile={userProfile}/>
                         <a
                             href={userProfile?.html_url}
                             target="_blank"
